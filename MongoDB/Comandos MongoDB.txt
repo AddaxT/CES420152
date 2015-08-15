@@ -1,0 +1,98 @@
+Ejecutar base de datos
+
+"C:\Program Files\Mongodb\bin\mongod.exe" --dbpath "C:\Users\Luis Carlos Sanchez\Documents\Test Data"
+
+Ejecutar cliente
+
+"C:\Program Files\Mongodb\bin\mongo.exe"
+
+Importar datos de una colección
+
+"C:\Program Files\Mongodb\bin\mongoimport.exe" --db ces4 --collection zips --file "C:\Users\Luis Carlos Sanchez\Downloads\zips.json"
+
+Importar datos de una colección actualizando
+
+"C:\Program Files\Mongodb\bin\mongoimport.exe" --upsert --db ces4 --collection zips --file "C:\Users\Luis Carlos Sanchez\Downloads\zips.json"
+
+Exportar datos
+
+"C:\Program Files\Mongodb\bin\mongoexport.exe" --db ces4 --collection zips --out "C:\Users\Luis Carlos Sanchez\Downloads\zipsbackup.json"
+
+Listar bases de datos
+
+show databases
+
+Cambiar base de datos
+
+use ces4
+
+Mostrar las colecciones de la base de datos actual
+
+show collections
+
+Mostrar usuarios de la base de datos actual
+
+show users
+
+Mostrar roles de la base de datos actual
+
+show roles
+
+Consultar todos los registros de una colección
+
+db.zips.find()
+
+Consultar todos los registros de la colección que tenga como estado MA
+
+db.zips.find( { state: "MA" } )
+
+Consultar todos los registros cuya población es mayor que 100000
+
+db.zips.find( { pop: { $gt: 100000 } } )
+
+Consultar los registros cuya población este entre 50000 y 100000
+
+db.zips.find( { pop: { $gt: 50000, $lt: 100000 } } )
+
+Consultar los registros cuya componentes de ubicación sean mayores que 40 y menores que 50
+
+db.zips.find( { loc: { $gt: 40, $lt: 50 } } )
+
+Proyecciones
+
+db.zips.find( { loc: { $gt: 40, $lt: 50 } }, { city: 1, loc: 1} )
+
+db.zips.find( { }, { city: 1, loc: 1} )
+
+db.zips.find( { }, { city: 0, loc: 0} )
+
+Foreach
+
+db.zips.find().forEach(function(doc){if(doc.loc){printjson(doc);}});
+
+Ordenamiento
+
+db.zips.find().sort( { city: 1 } )
+
+db.zips.find().sort( { city: 1, pop: -1 } )
+
+Inserción
+
+db.zips.insert(
+   [
+     { "city" : "MEDELLIN", "loc" : [ -98.485642, 45.466109 ], "pop": 800000, "state" : "OU" },
+     { "city" : "BOGOTA", "loc" : [ -98.485642, 45.466109 ], "pop": 800000, "state" : "OU" },
+     { "city" : "CALI", "loc" : [ -98.485642, 45.466109 ], "pop": 800000, "state" : "OU" }
+   ]
+)
+
+Actualizar
+
+db.zips.update(
+   { city: "MEDELLIN" },
+   {
+     $set: {
+       pop: 670000
+     }
+   }
+)
